@@ -1,0 +1,51 @@
+# coding=utf-8
+import re
+import json
+import request
+import gzip
+
+
+def un_gz(file_name):
+    f_name = file_name.replace(".gz","")
+    g_file = gzip.GzipFile(file_name)
+    open(f_name,"wb+").write(g_file.read())
+    g_file.close()
+
+ 
+def txtToJson():
+    # 文件路径
+    path = f_name
+    url = 'https://foo.com/bar'
+    
+    # 读取文件
+    with open(path,'r') as f:
+        # 定义一个用于切割字符串的正则
+        seq = re.compile(" ")
+        
+        # 逐行读取
+        for line in f:
+            lst = seq.split(line.strip())
+            lstid = re.findall("[\d]+",lst[4])
+            item = {
+                "processname": lst[4],
+                "processid":   lstid,               
+                "deviceName":  lst[3].split("[")[0],
+                "timeWindow":  str(lst[2]).replace(':','')[2:],
+                "description": str(lst[5:]).replace(',',''),
+                
+            }
+            print(item)
+
+
+            with open(f_name+'.json','a') as f1:
+                f1.write(str(item) + '\r\n')
+                f1.close()
+        f.close()
+        files = {'files':open(f_name+'.json','rb')
+        request.post(url.files=files)
+
+
+ 
+if __name__ == '__main__':
+    un_gz("DevOps_interview_data_set.gz")
+    txtToJson()
